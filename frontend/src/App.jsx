@@ -5,6 +5,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import CreateCourse from "./pages/CreateCourse";
+import EditCourse from "./pages/EditCourse";
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
           </PrivateRoute>
         }
       />
+      <Route path="/create-course" element={<CreateCourse />} />
+      <Route path="/edit-course/:id" element={<EditCourse />} />
     </Routes>
   );
 };
