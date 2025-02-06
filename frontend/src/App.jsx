@@ -7,7 +7,7 @@ import TeacherDashboard from "./pages/TeacherDashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
-
+import CourseDetails from "./pages/CourseDetails";
 const App = () => {
   return (
     <Routes>
@@ -29,8 +29,30 @@ const App = () => {
           </PrivateRoute>
         }
       />
-      <Route path="/create-course" element={<CreateCourse />} />
-      <Route path="/edit-course/:id" element={<EditCourse />} />
+      <Route
+        path="/create-course"
+        element={
+          <PrivateRoute role="teacher">
+            <CreateCourse />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/edit-course/:id"
+        element={
+          <PrivateRoute role="teacher">
+            <EditCourse />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/course/:id"
+        element={
+          <PrivateRoute role="student">
+            <CourseDetails />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
