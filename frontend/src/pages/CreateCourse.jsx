@@ -11,12 +11,19 @@ const CreateCourse = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      // Create URL for PDF preview
+      const fileUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(fileUrl);
+    }
   };
   const handleThumbnailChange = (e) => {
     setThumbnail(e.target.files[0]);
@@ -69,13 +76,50 @@ const CreateCourse = () => {
           required
           data-gramm="false"
         />
-        <input type="file" accept=".pdf" onChange={handleFileChange} required />
-        <input
-          type="file"
-          accept=".jpg, .jpeg, .png"
-          onChange={handleThumbnailChange}
-          required
-        />
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Course Material (PDF file)
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              required
+              className="mt-1 block w-full"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Upload your new course content in PDF format
+            </p>
+          </label>
+          {previewUrl && (
+            <div className="mt-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">
+                Preview Material:
+              </h3>
+              <iframe
+                src={previewUrl}
+                width="100%"
+                height="500px"
+                className="border"
+                title="PDF Preview"
+              />
+            </div>
+          )}
+        </div>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Course Thumbnail (Image)
+            <input
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={handleThumbnailChange}
+              required
+              className="mt-1 block w-full"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Upload a course thumbnail image (JPG, JPEG, or PNG)
+            </p>
+          </label>
+        </div>
         <button
           type="submit"
           className="bg-green-500 text-white p-2 rounded w-full"

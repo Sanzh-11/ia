@@ -64,13 +64,16 @@ const updateCourse = async (req, res) => {
 
     course.title = title || course.title;
     course.description = description || course.description;
-    if (req.file) {
-      course.material = req.file.filename;
+
+    // Update material only if new file is uploaded
+    if (req.files && req.files.material) {
+      course.material = `/uploads/${req.files.material[0].filename}`;
     }
 
     await course.save();
-    res.status(200).json(course);
+    res.status(200).json({ message: "Course updated successfully", course });
   } catch (error) {
+    console.error("Update error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
